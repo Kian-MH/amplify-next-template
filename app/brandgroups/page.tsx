@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/brandGroups";
+import type { Schema } from "@/amplify/data/resource";
 import "@/app/app.css";
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
+
+import { ThemeProvider } from "@aws-amplify/ui-react";
+import { BrandGroupCreateForm } from '../../ui-components';
 
 Amplify.configure(outputs);
 
@@ -34,23 +37,35 @@ export default function App() {
   function deleteBrandGroup(id: string) {
     client.models.BrandGroup.delete({ id })
   }
-
   return (
     <main>
-      <h1>My brandGroups</h1>
-      <button onClick={createBrandGroup}>+ new</button>
-      <ul>
-        {brandGroups.map((group) => (
-          <li onClick={() => deleteBrandGroup(group.id)} key={group.id}>{group.group}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new group.
-        <br />
-        <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/">
-          Review next steps of this tutorial.
-        </a>
-      </div>
+      <h1>BrandGroups</h1>
+      <ThemeProvider>
+        <BrandGroupCreateForm></BrandGroupCreateForm>
+      </ThemeProvider>
     </main>
   );
+  // return (
+  //   <main>
+  //     <h1>My brandGroups</h1>
+  //     <button onClick={createBrandGroup}>+ new</button>
+  //     <ul>
+  //       {brandGroups.map((group) => (
+  //         <li
+  //         onClick={() => deleteBrandGroup(group.id)}
+  //         key={group.id}
+  //         >
+  //           {group.group}
+  //         </li>
+  //       ))}
+  //     </ul>
+  //     <div>
+  //       🥳 App successfully hosted. Try creating a new group.
+  //       <br />
+  //       <a href="https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/">
+  //         Review next steps of this tutorial.
+  //       </a>
+  //     </div>
+  //   </main>
+  // );
 }
